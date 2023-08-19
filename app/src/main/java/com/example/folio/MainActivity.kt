@@ -15,8 +15,10 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.example.folio.core.navigation.AppNavHost
 import com.example.folio.core.network.NetworkMonitor
 import com.example.folio.ui.theme.FolioTheme
+import com.example.folio.ui.theme.rememberAppState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
@@ -51,10 +53,14 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             FolioTheme {
+                val appState = rememberAppState(networkMonitor = networkMonitor)
+
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
-                ) {}
+                ) {
+                    AppNavHost(appState = appState)
+                }
             }
         }
     }
