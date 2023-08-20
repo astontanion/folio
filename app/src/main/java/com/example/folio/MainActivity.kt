@@ -47,11 +47,12 @@ class MainActivity : ComponentActivity() {
                 networkMonitor.isOnLine
                     .onEach {
                         shouldShowSplashScreen = it
-                        Log.e(TAG, "is online: $it")
                     }
                     .collect()
             }
         }
+        val apiKey: String = BuildConfig.FLICKR_API_KEY
+        Log.d(TAG, "api key: $apiKey")
 
         setContent {
             FolioTheme {
