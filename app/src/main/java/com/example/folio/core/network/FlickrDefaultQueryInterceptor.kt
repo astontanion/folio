@@ -6,7 +6,7 @@ import okhttp3.Response
 
 class FlickrDefaultQueryInterceptor: Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
-        val url = chain.request().url().newBuilder()
+        val url = chain.request().url.newBuilder()
             .addQueryParameter("format", "json")
             .addQueryParameter("nojsoncallback", "1")
             .addQueryParameter("api_key", BuildConfig.FLICKR_API_KEY)

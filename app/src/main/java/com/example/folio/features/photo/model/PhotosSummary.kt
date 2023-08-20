@@ -5,5 +5,5 @@ data class PhotosSummary(
     val totalPages: Int,
     val pageSize: Int,
     val totalPhotos: Int,
-    val photos: List<PhotoDto> = emptyList()
+    val photos: List<Photo> = emptyList()
 )

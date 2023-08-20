@@ -9,7 +9,7 @@ data class PhotoDto(
     @SerializedName("owner")
     val owner: String,
 
-    @SerializedName("ownerName")
+    @SerializedName("ownername")
     val ownerName: String,
 
     @SerializedName("title")

@@ -32,7 +32,7 @@ data class PhotosSummaryDto(
             totalPages = totalPages,
             pageSize = pageSize,
             totalPhotos = totalPhotos,
-            photos = photos
+            photos = photos.map { it.toModel() }
         )
     }
 }
