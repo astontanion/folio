@@ -5,6 +5,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -17,8 +18,13 @@ class RetrofitService {
     @Singleton
     fun provide(): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("https://www.flickr.com/services/rest?format=json&nojsoncallback=1&api_key=${BuildConfig.FLICKR_API_KEY}")
+            .baseUrl("https://www.flickr.com/services/rest/")
             .addConverterFactory(GsonConverterFactory.create())
+            .client(
+                OkHttpClient.Builder()
+                    .addInterceptor(FlickrDefaultQueryInterceptor())
+                    .build()
+            )
             .build()
     }
 }
