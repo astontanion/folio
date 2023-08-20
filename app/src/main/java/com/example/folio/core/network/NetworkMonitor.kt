@@ -1,9 +1,7 @@
 package com.example.folio.core.network
 
 import dagger.Binds
-import dagger.Module
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityComponent
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Singleton

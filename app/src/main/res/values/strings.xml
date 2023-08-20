@@ -3,4 +3,5 @@
     <string name="photos_list_title">Photos</string>
     <string name="photo_detail_title">Photo Detail</string>
     <string name="user_detail_title">User Detail</string>
+    <string name="shared_network_monitor_error_message">It seems you are not connected to the internet. Please try again later.</string>
 </resources>

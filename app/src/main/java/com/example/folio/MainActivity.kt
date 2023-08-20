@@ -13,12 +13,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.folio.core.navigation.AppNavHost
 import com.example.folio.core.network.NetworkMonitor
-import com.example.folio.ui.theme.FolioTheme
-import com.example.folio.ui.theme.rememberAppState
+import com.example.folio.shared.ui.component.NetworkMonitorComponent
+import com.example.folio.shared.ui.theme.FolioTheme
+import com.example.folio.shared.state.rememberAppState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
@@ -55,11 +57,16 @@ class MainActivity : ComponentActivity() {
             FolioTheme {
                 val appState = rememberAppState(networkMonitor = networkMonitor)
 
+                val isOffLine by appState.isOffLine.collectAsStateWithLifecycle()
+
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    AppNavHost(appState = appState)
+                    when (isOffLine) {
+                        true -> NetworkMonitorComponent(modifier = Modifier.fillMaxSize())
+                        false -> AppNavHost(appState = appState)
+                    }
                 }
             }
         }

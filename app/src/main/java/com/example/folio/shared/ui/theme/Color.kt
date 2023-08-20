@@ -1,4 +1,4 @@
-package com.example.folio.ui.theme
+package com.example.folio.shared.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

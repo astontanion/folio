@@ -1,4 +1,4 @@
-package com.example.folio.ui.theme
+package com.example.folio.shared.state
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
