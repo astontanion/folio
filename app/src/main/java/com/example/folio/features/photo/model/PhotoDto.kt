@@ -7,7 +7,7 @@ data class PhotoDto(
     val id: String,
 
     @SerializedName("owner")
-    val owner: String,
+    val ownerId: String,
 
     @SerializedName("ownername")
     val ownerName: String,
@@ -25,13 +25,20 @@ data class PhotoDto(
     val width: Int,
 
     @SerializedName("height_m")
-    val height: Int
+    val height: Int,
+
+    @SerializedName("server")
+    val server: String,
+
+    @SerializedName("farm")
+    val farm: String
 ) {
     fun toModel(): Photo {
         return Photo(
             id = id,
-            owner = owner,
+            ownerId = ownerId,
             ownerName = ownerName,
+            ownerProfileUrl = "https://farm${farm}.staticflickr.com/${server}/buddyicons/${ownerId}_l.jpg",
             title = title,
             tags = tags.split(""),
             url = url ?: "",
@@ -39,4 +46,5 @@ data class PhotoDto(
             height = height
         )
     }
+
 }

@@ -4,6 +4,7 @@ import com.example.folio.core.di.Io
 import com.example.folio.core.network.DataResource
 import com.example.folio.features.photo.model.PhotosSummary
 import com.example.folio.features.photo.repository.PhotoRepository
+import com.example.folio.features.photo.user.repository.UserRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -14,7 +15,7 @@ import javax.inject.Inject
 class RetrievePhotosUseCaseImpl @Inject constructor(
     @Io
     private val dispatcher: CoroutineDispatcher,
-    private val photoRepository: PhotoRepository
+    private val photoRepository: PhotoRepository,
 ): RetrievePhotosUseCase {
     override suspend fun invoke(): Flow<DataResource<PhotosSummary>> {
         return withContext(dispatcher) {
