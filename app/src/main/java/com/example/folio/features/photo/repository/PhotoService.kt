@@ -19,6 +19,6 @@ interface PhotoService {
         }
     }
 
-    @GET("?method=flickr.photos.getRecent&extras=tags,owner_name,o_dims, views,path_alias,url_m")
-    suspend fun getRecent(): PhotoListDto
+    @GET("?method=flickr.interestingness.getList&extras=tags,owner_name,o_dims, views,path_alias,url_m")
+    suspend fun retrievePhotos(): PhotoListDto
 }

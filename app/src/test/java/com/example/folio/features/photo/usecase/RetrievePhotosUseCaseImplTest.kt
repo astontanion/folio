@@ -8,7 +8,6 @@ import com.example.folio.features.photo.model.PhotosSummary
 import com.example.folio.features.photo.model.create
 import com.example.folio.features.photo.repository.PhotoRepository
 import io.mockk.coEvery
-import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -24,18 +23,18 @@ import org.junit.Before
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class RetrieveRecentPhotoUseCaseImplTest {
+class RetrievePhotosUseCaseImplTest {
 
     private val testDispatcher = StandardTestDispatcher()
 
     private lateinit var photoRepository: PhotoRepository
-    private lateinit var retrieveRecentPhotoUseCase: RetrieveRecentPhotoUseCase
+    private lateinit var retrievePhotosUseCase: RetrievePhotosUseCase
 
     @Before
     fun setup() {
         Dispatchers.setMain(testDispatcher)
         photoRepository = mockk()
-        retrieveRecentPhotoUseCase = RetrieveRecentPhotoUseCaseImpl(
+        retrievePhotosUseCase = RetrievePhotosUseCaseImpl(
             dispatcher = testDispatcher,
             photoRepository = photoRepository
         )
@@ -48,28 +47,28 @@ class RetrieveRecentPhotoUseCaseImplTest {
 
     @Test
     fun `test that the first emission is waiting`() = runTest {
-        val result = retrieveRecentPhotoUseCase().first()
+        val result = retrievePhotosUseCase().first()
         assertTrue(result.isWaiting())
     }
 
     @Test
     fun `when the api fails returns a failure data resource`() = runTest {
-        coEvery { photoRepository.retrieveRecent() } throws Exception()
+        coEvery { photoRepository.retrievePhotos() } throws Exception()
 
         // note that we are dropping 1 because the first emission is always waiting.
-        val result = retrieveRecentPhotoUseCase().drop(1).first()
+        val result = retrievePhotosUseCase().drop(1).first()
 
         assertTrue(result.isFailure())
     }
 
     @Test
     fun `when the api succeed returns a success data resource`() = runTest {
-        coEvery { photoRepository.retrieveRecent() } returns PhotosSummary.create(
+        coEvery { photoRepository.retrievePhotos() } returns PhotosSummary.create(
             pageSize = 100
         )
 
         // note that we are dropping 1 because the first emission is always waiting.
-        val result = retrieveRecentPhotoUseCase().drop(1).first()
+        val result = retrievePhotosUseCase().drop(1).first()
 
         assertTrue(result.isSuccess())
 

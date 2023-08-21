@@ -6,7 +6,7 @@ import com.example.folio.core.network.isIdle
 import com.example.folio.core.network.isSuccess
 import com.example.folio.features.photo.model.PhotosSummary
 import com.example.folio.features.photo.model.create
-import com.example.folio.features.photo.usecase.RetrieveRecentPhotoUseCase
+import com.example.folio.features.photo.usecase.RetrievePhotosUseCase
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
@@ -29,16 +29,16 @@ class PhotoListViewModelTest {
 
     private val testDispatcher = StandardTestDispatcher()
 
-    private lateinit var retrieveRecentPhotoUseCase: RetrieveRecentPhotoUseCase
+    private lateinit var retrievePhotosUseCase: RetrievePhotosUseCase
     private lateinit var photoListViewModel: PhotoListViewModel
 
     @Before
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
-        retrieveRecentPhotoUseCase = mockk()
+        retrievePhotosUseCase = mockk()
         photoListViewModel = PhotoListViewModel(
             dispatcher = testDispatcher,
-            retrieveRecentPhotoUseCase = retrieveRecentPhotoUseCase
+            retrievePhotosUseCase = retrievePhotosUseCase
         )
     }
 
@@ -55,7 +55,7 @@ class PhotoListViewModelTest {
 
     @Test
     fun `given a success response from recent photo, photo resource is success`() = runTest {
-        coEvery { retrieveRecentPhotoUseCase() } returns flow {
+        coEvery { retrievePhotosUseCase() } returns flow {
             emit(DataResource.Success(data = PhotosSummary.create()))
         }
 
@@ -70,7 +70,7 @@ class PhotoListViewModelTest {
 
     @Test
     fun `given a failure response from recent photo, photo resource is failure`() = runTest {
-        coEvery { retrieveRecentPhotoUseCase() } returns flow {
+        coEvery { retrievePhotosUseCase() } returns flow {
             emit(DataResource.Failure(error = IOException()))
         }
 

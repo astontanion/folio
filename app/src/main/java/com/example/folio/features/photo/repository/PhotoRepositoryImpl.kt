@@ -6,7 +6,7 @@ import javax.inject.Inject
 class PhotoRepositoryImpl @Inject constructor(
     private val service: PhotoService
 ): PhotoRepository {
-    override suspend fun retrieveRecent(): PhotosSummary {
-        return service.getRecent().photos.toModel()
+    override suspend fun retrievePhotos(): PhotosSummary {
+        return service.retrievePhotos().photos.toModel()
     }
 }

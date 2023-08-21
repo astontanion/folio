@@ -16,5 +16,5 @@ interface PhotoRepository {
         fun bind(impl: PhotoRepositoryImpl): PhotoRepository
     }
 
-    suspend fun retrieveRecent(): PhotosSummary
+    suspend fun retrievePhotos(): PhotosSummary
 }

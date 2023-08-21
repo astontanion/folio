@@ -11,16 +11,16 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class RetrieveRecentPhotoUseCaseImpl @Inject constructor(
+class RetrievePhotosUseCaseImpl @Inject constructor(
     @Io
     private val dispatcher: CoroutineDispatcher,
     private val photoRepository: PhotoRepository
-): RetrieveRecentPhotoUseCase {
+): RetrievePhotosUseCase {
     override suspend fun invoke(): Flow<DataResource<PhotosSummary>> {
         return withContext(dispatcher) {
              flow {
                 emit(DataResource.Waiting())
-                val summary = photoRepository.retrieveRecent()
+                val summary = photoRepository.retrievePhotos()
                 emit(DataResource.Success(summary))
             }.catch { ex ->
                  emit(DataResource.Failure(ex))
