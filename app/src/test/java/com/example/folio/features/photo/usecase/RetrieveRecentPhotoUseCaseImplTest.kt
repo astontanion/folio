@@ -1,7 +1,11 @@
 package com.example.folio.features.photo.usecase
 
 import com.example.folio.core.network.DataResource
+import com.example.folio.core.network.isFailure
+import com.example.folio.core.network.isSuccess
+import com.example.folio.core.network.isWaiting
 import com.example.folio.features.photo.model.PhotosSummary
+import com.example.folio.features.photo.model.create
 import com.example.folio.features.photo.repository.PhotoRepository
 import io.mockk.coEvery
 import io.mockk.every
@@ -60,12 +64,8 @@ class RetrieveRecentPhotoUseCaseImplTest {
 
     @Test
     fun `when the api succeed returns a success data resource`() = runTest {
-        coEvery { photoRepository.retrieveRecent() } returns PhotosSummary(
-            currentPage = 0,
-            totalPages = 1,
-            pageSize = 2,
-            totalPhotos = 3,
-            photos = emptyList()
+        coEvery { photoRepository.retrieveRecent() } returns PhotosSummary.create(
+            pageSize = 100
         )
 
         // note that we are dropping 1 because the first emission is always waiting.
@@ -75,6 +75,6 @@ class RetrieveRecentPhotoUseCaseImplTest {
 
         val data = (result as DataResource.Success).data
 
-        assertEquals(2, data.pageSize)
+        assertEquals(100, data.pageSize)
     }
 }

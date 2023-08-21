@@ -6,4 +6,6 @@ data class PhotosSummary(
     val pageSize: Int,
     val totalPhotos: Int,
     val photos: List<Photo> = emptyList()
-)
+) {
+    companion object {}
+}
