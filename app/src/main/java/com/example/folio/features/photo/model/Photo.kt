@@ -7,7 +7,7 @@ data class Photo(
     val owner: String,
     val ownerName: String,
     val title: String,
-    val tags: String,
+    val tags: List<String>,
     val url: String,
     val width: Int,
     val height: Int

@@ -19,7 +19,7 @@ data class PhotoDto(
     val tags: String,
 
     @SerializedName("url_m")
-    val url: String,
+    val url: String?,
 
     @SerializedName("width_m")
     val width: Int,
@@ -33,8 +33,8 @@ data class PhotoDto(
             owner = owner,
             ownerName = ownerName,
             title = title,
-            tags = tags,
-            url = url,
+            tags = tags.split(""),
+            url = url ?: "",
             width = width,
             height = height
         )
