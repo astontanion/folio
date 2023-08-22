@@ -40,7 +40,7 @@ data class PhotoDto(
             ownerName = ownerName,
             ownerProfileUrl = "https://farm${farm}.staticflickr.com/${server}/buddyicons/${ownerId}_l.jpg",
             title = title,
-            tags = tags.split(""),
+            tags = tags.split(" "),
             url = url ?: "",
             width = width,
             height = height
