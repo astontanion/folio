@@ -1,26 +1,27 @@
-package com.example.folio.features.photo.repository
+package com.example.folio.features.photo.usecase
 
+import com.example.folio.core.network.DataResource
 import com.example.folio.features.photo.model.PhotosSummary
 import com.example.folio.features.photo.model.SearchTagMode
 import dagger.Binds
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Singleton
 
-interface PhotoRepository {
+interface SearchPhotosUseCase {
 
     @dagger.Module
     @InstallIn(SingletonComponent::class)
     interface Module {
         @Binds
         @Singleton
-        fun bind(impl: PhotoRepositoryImpl): PhotoRepository
+        fun bind(impl: SearchPhotosUseCaseImpl): SearchPhotosUseCase
     }
 
-    suspend fun retrievePhotos(): PhotosSummary
-    suspend fun searchPhotos(
-        tags: String?,
+    suspend operator fun invoke(
+        tags: List<String>,
         query: String?,
-        tagMode: SearchTagMode?
-    ): PhotosSummary
+        tagMode: SearchTagMode
+    ): Flow<DataResource<PhotosSummary>>
 }
