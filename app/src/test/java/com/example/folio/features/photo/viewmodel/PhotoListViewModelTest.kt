@@ -115,21 +115,24 @@ class PhotoListViewModelTest {
     }
 
     @Test
-    fun `on query change updates the search query and the uiState's filtered tags`() = runTest {
-        val query = "alp"
+    fun `on query change updates the search query, tags and the uiState's filtered tags`() = runTest {
+        val query = "my,name,alp"
         photoListViewModel.onQueryChange(query)
 
         val searchQuery = photoListViewModel.uiState.value
             .searchQuery
 
+        val tags = photoListViewModel.uiState.value.searchTags
+
         assertEquals(query, searchQuery)
+        assertTrue(tags.containsAll(listOf("my", "name", "alp")))
     }
 
     @Test
     fun `when the query is not empty, filter the encountered tags`() = runTest {
         mockOnSearchPhoto()
 
-        val query = "alp"
+        val query = "my,name,alp"
         photoListViewModel.onQueryChange(query)
 
         val filteredTags = photoListViewModel.uiState.drop(1)
@@ -157,18 +160,11 @@ class PhotoListViewModelTest {
         val filteredTags = photoListViewModel.uiState.value
             .encounteredTags
 
+        val tags = photoListViewModel.uiState.value.searchTags
+
         assertTrue(filteredTags.containsAll(encounteredTags))
-    }
 
-    @Test
-    fun `on tab change updates the search query and the uiState's search tab`() = runTest {
-        val tags = listOf("alpha, beta")
-        photoListViewModel.onTagsChange(tags)
-
-        val searchTabs = photoListViewModel.uiState.value
-            .searchTags
-
-        assertTrue(searchTabs.containsAll(tags))
+        assertTrue(tags.isEmpty())
     }
 
     @Test
@@ -179,11 +175,31 @@ class PhotoListViewModelTest {
         assertEquals(SearchTagMode.ALL, searchMode)
     }
 
+    @Test
+    fun `auto complete the search query to the nearest tag`() {
+        // call to load encountered tags
+        mockOnSearchPhoto()
+
+        val query = "alpha, be, gamma"
+
+        // updates the query tags
+        photoListViewModel.onQueryChange(query)
+
+        val tag = "beta"
+        photoListViewModel.onAutoCompleteTag(tag)
+
+        val newTags = photoListViewModel.uiState.value.searchTags
+        val newQuery = photoListViewModel.uiState.value.searchQuery
+
+        assertTrue(newTags.contains(tag))
+
+        assertEquals("alpha, beta, gamma", newQuery)
+    }
+
     private fun mockOnSearchPhoto() {
         coEvery {
             searchPhotosUseCase(
                 tags = any(),
-                query = any(),
                 tagMode = any()
             )
         } returns flow {
