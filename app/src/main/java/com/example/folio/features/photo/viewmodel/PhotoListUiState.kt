@@ -14,5 +14,7 @@ data class PhotoListUiState(
     val filteredTags: List<String> = emptyList(),
     val photoListSummaryResource: DataResource<PhotosSummary> = DataResource.Idle()
 ) {
+    companion object {}
+
     val isLoading: Boolean = photoListSummaryResource.isWaiting()
 }

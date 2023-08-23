@@ -1,9 +1,13 @@
 package com.example.folio.core.navigation
 
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.folio.features.photo.ui.PhotoListScreen
 import com.example.folio.shared.state.FolioAppState
 
 @Composable
@@ -19,7 +23,7 @@ fun AppNavHost(
             route = Destination.PhotoList.route,
             arguments = Destination.PhotoList.argument()
         ) {
-            Text(text = "Photo List")
+            PhotoListScreen(modifier = Modifier.fillMaxSize())
         }
 
         composable(

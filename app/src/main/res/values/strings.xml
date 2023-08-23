@@ -4,4 +4,11 @@
     <string name="photo_detail_title">Photo Detail</string>
     <string name="user_detail_title">User Detail</string>
     <string name="shared_network_monitor_error_message">It seems you are not connected to the internet. Please try again later.</string>
+    <string name="button_try_again">Retry</string>
+    <string name="unable_to_fetch_photos">We were unable to fetch photos.</string>
+    <string name="search_for_photo_by_tag">Search photos by tags</string>
+    <string name="search_mode_any">any</string>
+    <string name="search_mode_all">all</string>
+    <string name="photos_not_found">We could not found photos matching your query.</string>
+    <string name="button_get_recent">Get recent</string>
 </resources>
