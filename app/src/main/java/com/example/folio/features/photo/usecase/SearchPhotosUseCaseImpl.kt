@@ -20,7 +20,6 @@ class SearchPhotosUseCaseImpl @Inject constructor(
 ): SearchPhotosUseCase {
     override suspend fun invoke(
         tags: List<String>,
-        query: String?,
         tagMode: SearchTagMode
     ): Flow<DataResource<PhotosSummary>> {
         return withContext(dispatcher) {
@@ -28,7 +27,6 @@ class SearchPhotosUseCaseImpl @Inject constructor(
                 emit(DataResource.Waiting())
                 val summary = photoRepository.searchPhotos(
                     tags = tags.joinToString(","),
-                    query = query,
                     tagMode = tagMode
                 )
                 emit(DataResource.Success(summary))

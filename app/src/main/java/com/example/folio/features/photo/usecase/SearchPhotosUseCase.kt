@@ -21,7 +21,6 @@ interface SearchPhotosUseCase {
 
     suspend operator fun invoke(
         tags: List<String>,
-        query: String?,
         tagMode: SearchTagMode
     ): Flow<DataResource<PhotosSummary>>
 }

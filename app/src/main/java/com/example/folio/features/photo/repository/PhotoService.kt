@@ -28,7 +28,6 @@ interface PhotoService {
     @GET("?method=flickr.photos.search&safe_search=1&extras=tags,owner_name,o_dims, views,path_alias,url_m")
     suspend fun searchPhotos(
         @Query("tags") tags: String? = null,
-        @Query("text") query: String? = null,
-        @Query("tag_mode") tagMode: SearchTagMode? = null
+        @Query("tag_mode") tagMode: String? = null
     ): PhotoListDto
 }

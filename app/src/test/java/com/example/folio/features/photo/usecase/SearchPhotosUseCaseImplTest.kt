@@ -50,7 +50,6 @@ class SearchPhotosUseCaseImplTest {
     fun `test that the first emission is waiting`() = runTest {
         val result = searchPhotosUseCase(
             tags = emptyList(),
-            query = null,
             tagMode = SearchTagMode.ANY
         ).first()
 
@@ -62,7 +61,6 @@ class SearchPhotosUseCaseImplTest {
         coEvery {
             photoRepository.searchPhotos(
                 tags = any(),
-                query = any(),
                 tagMode = any()
             )
         } throws Exception()
@@ -70,7 +68,6 @@ class SearchPhotosUseCaseImplTest {
         // note that we are dropping 1 because the first emission is always waiting.
         val result = searchPhotosUseCase(
             tags = emptyList(),
-            query = null,
             tagMode = SearchTagMode.ANY
         ).drop(1).first()
 
@@ -82,7 +79,6 @@ class SearchPhotosUseCaseImplTest {
         coEvery {
             photoRepository.searchPhotos(
                 tags = any(),
-                query = any(),
                 tagMode = any()
             )
         } returns PhotosSummary.create(
@@ -92,7 +88,6 @@ class SearchPhotosUseCaseImplTest {
         // note that we are dropping 1 because the first emission is always waiting.
         val result = searchPhotosUseCase(
             tags = emptyList(),
-            query = null,
             tagMode = SearchTagMode.ANY
         ).drop(1).first()
 

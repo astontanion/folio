@@ -20,7 +20,6 @@ interface PhotoRepository {
     suspend fun retrievePhotos(): PhotosSummary
     suspend fun searchPhotos(
         tags: String?,
-        query: String?,
-        tagMode: SearchTagMode?
+        tagMode: SearchTagMode
     ): PhotosSummary
 }
