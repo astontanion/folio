@@ -7,6 +7,7 @@ import com.example.folio.core.network.isSuccess
 import com.example.folio.features.photo.model.PhotosSummary
 import com.example.folio.features.photo.model.create
 import com.example.folio.features.photo.usecase.RetrieveUserPhotosUseCase
+import com.example.folio.features.user.viewmodel.UserDetailViewModel
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers

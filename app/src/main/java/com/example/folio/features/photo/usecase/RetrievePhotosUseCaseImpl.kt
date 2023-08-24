@@ -4,7 +4,6 @@ import com.example.folio.core.di.Io
 import com.example.folio.core.network.DataResource
 import com.example.folio.features.photo.model.PhotosSummary
 import com.example.folio.features.photo.repository.PhotoRepository
-import com.example.folio.features.photo.user.repository.UserRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch

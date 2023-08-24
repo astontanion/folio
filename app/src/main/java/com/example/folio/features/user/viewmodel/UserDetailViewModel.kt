@@ -1,4 +1,4 @@
-package com.example.folio.features.photo.user.viewmodel
+package com.example.folio.features.user.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
