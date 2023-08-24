@@ -1,5 +1,6 @@
 package com.example.folio.features.photo.repository
 
+import com.example.folio.features.photo.model.PhotoDetailWrapperDto
 import com.example.folio.features.photo.model.PhotoListDto
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -33,4 +34,9 @@ interface PhotoService {
     suspend fun retrieveUserPhotos(
         @Query("user_id") userId: String
     ): PhotoListDto
+
+    @GET("?method=flickr.photos.getInfo")
+    suspend fun retrievePhotoWithId(
+        @Query("photo_id") photoId: String
+    ): PhotoDetailWrapperDto
 }

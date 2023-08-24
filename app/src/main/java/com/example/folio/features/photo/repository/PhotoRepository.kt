@@ -1,5 +1,6 @@
 package com.example.folio.features.photo.repository
 
+import com.example.folio.features.photo.model.Photo
 import com.example.folio.features.photo.model.PhotosSummary
 import com.example.folio.features.photo.model.SearchTagMode
 import dagger.Binds
@@ -25,4 +26,6 @@ interface PhotoRepository {
     ): PhotosSummary
 
     suspend fun retrieveUserPhotos(userId: String): PhotosSummary
+
+    suspend fun retrievePhotoWithId(photoId: String): Photo
 }

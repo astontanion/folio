@@ -46,18 +46,23 @@ data class PhotoDto(
     }
 }
 
+data class PhotoDetailWrapperDto(
+    @SerializedName("photo")
+    val photo: PhotoDetailDto
+)
+
 data class PhotoDetailDto(
     @SerializedName("id")
     val id: String,
 
     @SerializedName("title")
-    val title: ContentableDto,
+    val title: ContentableDto?,
 
     @SerializedName("description")
-    val description: ContentableDto,
+    val description: ContentableDto?,
 
     @SerializedName("tags")
-    val tags: TagsContentDto,
+    val tags: TagsContentDto?,
 
     @SerializedName("secret")
     val secret: String,
@@ -75,8 +80,8 @@ data class PhotoDetailDto(
     fun toModel(): Photo {
         return Photo(
             id = id,
-            title = title.content,
-            tags = tags.tag.map { it.content },
+            title = title?.content.orEmpty(),
+            tags = tags?.tag?.map { it.content } ?: emptyList(),
             url = "https://live.staticflickr.com/${server}/${id}_${secret}_m.jpg",
             owner = Owner(
                 id = owner.id,
@@ -110,13 +115,13 @@ data class OwnerDto(
     val name: String,
 
     @SerializedName("location")
-    val location: String,
+    val location: String?,
 
     @SerializedName("iconserver")
     val server: String,
 
     @SerializedName("iconfarm")
-    val farm: String
+    val farm: Int
 ) {
     val profileUrl = "https://farm${farm}.staticflickr.com/${server}/buddyicons/${id}_l.jpg"
 }

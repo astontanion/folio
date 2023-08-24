@@ -14,7 +14,7 @@ data class Owner(
     val id: String,
     val username: String,
     val name: String,
-    val location: String,
+    val location: String?,
     val profileUrl: String,
 ) {
     companion object {}
