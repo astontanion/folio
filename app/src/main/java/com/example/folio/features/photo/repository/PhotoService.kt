@@ -1,8 +1,6 @@
 package com.example.folio.features.photo.repository
 
-import coil.request.Tags
 import com.example.folio.features.photo.model.PhotoListDto
-import com.example.folio.features.photo.model.SearchTagMode
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
@@ -29,5 +27,10 @@ interface PhotoService {
     suspend fun searchPhotos(
         @Query("tags") tags: String? = null,
         @Query("tag_mode") tagMode: String? = null
+    ): PhotoListDto
+
+    @GET("?method=flickr.people.getPhotos&extras=tags,owner_name,o_dims, views,path_alias,url_m")
+    suspend fun retrieveUserPhotos(
+        @Query("user_id") userId: String
     ): PhotoListDto
 }

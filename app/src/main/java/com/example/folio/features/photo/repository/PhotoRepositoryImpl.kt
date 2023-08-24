@@ -1,9 +1,7 @@
 package com.example.folio.features.photo.repository
 
-import androidx.compose.ui.text.toLowerCase
 import com.example.folio.features.photo.model.PhotosSummary
 import com.example.folio.features.photo.model.SearchTagMode
-import com.example.folio.features.photo.user.repository.UserRepository
 import javax.inject.Inject
 
 class PhotoRepositoryImpl @Inject constructor(
@@ -18,5 +16,9 @@ class PhotoRepositoryImpl @Inject constructor(
         tagMode: SearchTagMode
     ): PhotosSummary {
         return service.searchPhotos(tags, tagMode.name.lowercase()).photos.toModel()
+    }
+
+    override suspend fun retrieveUserPhotos(userId: String): PhotosSummary {
+        return service.retrieveUserPhotos(userId).photos.toModel()
     }
 }
