@@ -5,13 +5,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Chip
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -34,7 +29,7 @@ fun PhotoPostComponent(
         verticalArrangement = Arrangement.spacedBy(16.dp),
         modifier = modifier.padding(horizontal = 16.dp)
     ) {
-        PostHeader(
+        UserInfoComponent(
             ownerUrl = ownerUrl,
             ownerName = ownerName,
             modifier = Modifier.fillMaxWidth(),
@@ -65,32 +60,5 @@ fun PhotoPostComponent(
                 )
             }
         }
-    }
-}
-
-@Composable
-private fun PostHeader(
-    modifier: Modifier = Modifier,
-    ownerUrl: String,
-    ownerName: String,
-    onClick: () -> Unit
-) {
-    Row(
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier
-    ) {
-        AvatarImageComponent(
-            url = ownerUrl, 
-            contentDescription = null,
-            onClick = { onClick() }
-        )
-        Text(
-            text = ownerName,
-            style = MaterialTheme.typography.titleSmall,
-            modifier = Modifier.clickable {
-                onClick()
-            }
-        )
     }
 }

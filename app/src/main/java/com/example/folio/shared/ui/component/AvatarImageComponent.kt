@@ -25,7 +25,7 @@ fun AvatarImageComponent(
         contentDescription = contentDescription,
         contentScale = ContentScale.Crop,
         modifier = modifier
-            .size(48.dp)
+            .size(40.dp)
             .clickable { onClick(url) }
             .clip(shape = CircleShape)
             .testTag(AVATAR_IMAGE_TEST_TAG)
