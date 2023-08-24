@@ -62,7 +62,7 @@ fun AppNavHost(
                     modifier = Modifier.fillMaxSize(),
                     userId = userId,
                     onBackPress = {
-                        if (appState.navController.popBackStack()) {
+                        if (!appState.navController.popBackStack()) {
                             onFinish()
                         }
                     }
