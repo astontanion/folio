@@ -13,9 +13,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.folio.core.navigation.AppNavHost
 import com.example.folio.core.network.NetworkMonitor
 import com.example.folio.features.photo.usecase.RetrievePhotosUseCase
+import com.example.folio.shared.state.rememberAppState
 import com.example.folio.shared.ui.component.NetworkMonitorComponent
 import com.example.folio.shared.ui.theme.FolioTheme
-import com.example.folio.shared.state.rememberAppState
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -48,7 +48,10 @@ class MainActivity : ComponentActivity() {
                 ) {
                     when (isOffLine) {
                         true -> NetworkMonitorComponent(modifier = Modifier.fillMaxSize())
-                        false -> AppNavHost(appState = appState)
+                        false -> AppNavHost(
+                            appState = appState,
+                            onFinish = { finish() }
+                        )
                     }
                 }
             }

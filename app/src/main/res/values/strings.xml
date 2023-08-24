@@ -11,4 +11,7 @@
     <string name="search_mode_all">all</string>
     <string name="photos_not_found">We could not found photos matching your query.</string>
     <string name="button_get_recent">Get recent</string>
+    <string name="content_description_go_back">Go back</string>
+    <string name="user_photos_not_found">We could not found this user\'s photos.</string>
+    <string name="unable_to_fetch_user_photos">We are unabled to fetch this user\'s photos.</string>
 </resources>
