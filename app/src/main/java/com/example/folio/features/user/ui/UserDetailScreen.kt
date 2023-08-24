@@ -88,8 +88,8 @@ fun UserDetailScreen(
                     if (uiState.photoListSummaryResource is DataResource.Success) {
                         uiState.photoListSummaryResource.data.photos.firstOrNull()?.let { photo ->
                             UserInfoComponent(
-                                ownerUrl = photo.ownerProfileUrl,
-                                ownerName = photo.ownerName,
+                                ownerUrl = photo.owner.profileUrl,
+                                ownerName = photo.owner.name,
                                 onClick = {},
                                 modifier = Modifier.testTag(USER_INFO_COMPONENT_TEST_TAG)
                             )

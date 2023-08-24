@@ -3,7 +3,6 @@ package com.example.folio.features.photo.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.folio.core.di.Default
-import com.example.folio.core.extension.emptyIfNull
 import com.example.folio.core.network.DataResource
 import com.example.folio.features.photo.model.PhotosSummary
 import com.example.folio.features.photo.model.SearchTagMode
@@ -42,7 +41,7 @@ class PhotoListViewModel @Inject constructor(
             }
         }
 
-        val lastTag = tags.lastOrNull().emptyIfNull()
+        val lastTag = tags.lastOrNull().orEmpty()
 
         _uiState.update {
             it.copy(

@@ -2,24 +2,32 @@ package com.example.folio.features.photo.model
 
 fun Photo.Companion.create(
     id: String = "01",
-    ownerId: String = "01",
-    ownerName: String = "John Smith",
-    ownerProfileUrl: String = "",
     title: String = "",
     tags: List<String> = emptyList(),
     url: String = "",
-    width: Int = 100,
-    height: Int = 100,
+    owner: Owner = Owner.create()
 ): Photo {
     return Photo(
         id = id,
-        ownerId = ownerId,
-        ownerName = ownerName,
-        ownerProfileUrl = ownerProfileUrl,
         title = title,
         tags = tags,
         url = url,
-        width = width,
-        height = height
+        owner = owner
+    )
+}
+
+fun Owner.Companion.create(
+    id: String = "01",
+    username: String = "johnsmith",
+    name: String = "John Smith",
+    location: String = "",
+    profileUrl: String = "",
+): Owner {
+    return Owner(
+        id = id,
+        username = username,
+        name = name,
+        location = location,
+        profileUrl = profileUrl
     )
 }

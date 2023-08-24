@@ -233,14 +233,14 @@ fun PhotoListScreen(
                                 items(items = items.photos, key = { it.id }) {photo ->
                                     PhotoPostComponent(
                                         photoUrl = photo.url,
-                                        ownerUrl = photo.ownerProfileUrl,
-                                        ownerName = photo.ownerName,
+                                        ownerUrl = photo.owner.profileUrl,
+                                        ownerName = photo.owner.name,
                                         title = photo.title,
                                         onImageClick = {
                                             // TODO: navigate to the image detail
                                         },
                                         onOwnerClick = {
-                                            onUserClick(photo.ownerId)
+                                            onUserClick(photo.owner.id)
                                         }
                                     )
                                 }
