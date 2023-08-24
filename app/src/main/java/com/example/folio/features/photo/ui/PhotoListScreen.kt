@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
@@ -42,6 +43,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.folio.R
 import com.example.folio.core.network.DataResource
+import com.example.folio.core.network.isSuccess
 import com.example.folio.features.photo.model.SearchTagMode
 import com.example.folio.features.photo.model.SearchTagMode.ALL
 import com.example.folio.features.photo.model.SearchTagMode.ANY
@@ -56,12 +58,15 @@ const val SEARCH_BAR_SUGGESTIONS = "SEARCH_BAR_SUGGESTIONS"
 @Composable
 fun PhotoListScreen(
     modifier: Modifier = Modifier,
-    viewModel: PhotoListViewModel = hiltViewModel()
+    viewModel: PhotoListViewModel = hiltViewModel(),
+    onUserClick: (userId: String) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
     LaunchedEffect(Unit) {
-        viewModel.onRefresh()
+        if (!uiState.photoListSummaryResource.isSuccess()) {
+            viewModel.onRefresh()
+        }
     }
 
     PhotoListScreen(
@@ -79,7 +84,8 @@ fun PhotoListScreen(
             viewModel.onSearchModeChange(it)
             viewModel.onSearch()
         },
-        onAutoComplete = viewModel::onAutoCompleteTag
+        onAutoComplete = viewModel::onAutoCompleteTag,
+        onUserClick = onUserClick
     )
 }
 
@@ -92,13 +98,16 @@ fun PhotoListScreen(
     onQueryChange: (query: String) -> Unit,
     onSearch: (query: String) -> Unit,
     onSearchModeChange: (mode: SearchTagMode) -> Unit,
-    onAutoComplete: (tag: String) -> Unit
+    onAutoComplete: (tag: String) -> Unit,
+    onUserClick: (userId: String) -> Unit
 ) {
 
     val pullState = rememberPullRefreshState(
         refreshing = uiState.isLoading,
         onRefresh = onRefresh
     )
+
+    val listState = rememberLazyListState()
 
     var isSearchActive by rememberSaveable {
         mutableStateOf(false)
@@ -196,6 +205,7 @@ fun PhotoListScreen(
             }
 
             LazyColumn(
+                state = listState,
                 verticalArrangement = Arrangement.spacedBy(32.dp),
                 modifier = Modifier.fillMaxSize()
             ) {
@@ -230,7 +240,7 @@ fun PhotoListScreen(
                                             // TODO: navigate to the image detail
                                         },
                                         onOwnerClick = {
-                                            // TODO: navigate to the owner detail
+                                            onUserClick(photo.ownerId)
                                         }
                                     )
                                 }

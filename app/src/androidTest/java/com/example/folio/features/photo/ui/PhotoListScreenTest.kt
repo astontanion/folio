@@ -53,10 +53,9 @@ class PhotoListScreenTest {
 
     @Test
     fun when_retrieving_photos_fails_show_an_error() {
-        val uiState = PhotoListUiState()
-            .copy(
-                photoListSummaryResource = DataResource.Failure(IOException())
-            )
+        val uiState = PhotoListUiState.create(
+            photoListSummaryResource = DataResource.Failure(IOException())
+        )
 
         var errorMessage = ""
         var errorButtonText = ""
@@ -90,10 +89,9 @@ class PhotoListScreenTest {
 
     @Test
     fun when_clicking_on_retry_button_on_refresh_is_called() {
-        val uiState = PhotoListUiState()
-            .copy(
-                photoListSummaryResource = DataResource.Failure(IOException())
-            )
+        val uiState = PhotoListUiState.create(
+            photoListSummaryResource = DataResource.Failure(IOException())
+        )
 
         var hasClickedOnRefresh = false
 
@@ -124,11 +122,10 @@ class PhotoListScreenTest {
     }
 
     @Test
-    fun when_no_photos_is_found_show_message() {
+    fun when_no_photo_is_found_show_message() {
         val uiState = PhotoListUiState.create(
             photoListSummaryResource = DataResource.Success(
-                PhotosSummary.create(
-                )
+                PhotosSummary.create()
             )
         )
 
@@ -163,11 +160,10 @@ class PhotoListScreenTest {
     }
 
     @Test
-    fun when_no_photos_is_found_clicking_on_get_recent_calls_on_refresh() {
+    fun when_no_photo_is_found_clicking_on_get_recent_calls_on_refresh() {
         val uiState = PhotoListUiState.create(
             photoListSummaryResource = DataResource.Success(
-                PhotosSummary.create(
-                )
+                PhotosSummary.create()
             )
         )
 

@@ -6,7 +6,6 @@ import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import com.example.folio.R
-import java.lang.IllegalArgumentException
 
 abstract class DestinationArguments {
     open fun argument(): List<NamedNavArgument> {
@@ -63,7 +62,7 @@ sealed class Destination(val route: String, @StringRes val title: Int): Destinat
         route = "users/{user_id}",
         title = R.string.user_detail_title
     ) {
-        const val ARG_USER_ID = "photo_id"
+        const val ARG_USER_ID = "user_id"
 
         override fun argument(): List<NamedNavArgument> {
             return listOf(
@@ -79,7 +78,7 @@ sealed class Destination(val route: String, @StringRes val title: Int): Destinat
                 route = route,
                 bundle = bundle
             )
-            return "photos/$userId"
+            return "users/$userId"
         }
     }
 }
