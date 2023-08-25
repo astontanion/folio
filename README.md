@@ -33,4 +33,4 @@ Clicking on a tag will display/search all images associated to the tag.
 
 
 # Testing
-As mentioned above, only viewmodels and use cases have been unit tested and this should cover the testing of repository as well. Due to lack of time, I was not able to test all composables but I have tested most of them.
+As mentioned above, only viewmodels and use cases have been unit tested and this does cover the testing of repository as well. Due to lack of time, I was not able to test all composables but I have tested most of them.
