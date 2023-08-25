@@ -64,11 +64,15 @@ fun PhotoPostComponent(
                     modifier = Modifier.horizontalScroll(rememberScrollState())
                 ) {
                     tags.forEach { tag ->
-                        FilterChip(
-                            selected = false,
-                            onClick = { onTagClick(tag) },
-                            label = { Text(text = tag) }
-                        )
+                        if (tag.isNotEmpty()) {
+                            FilterChip(
+                                selected = false,
+                                onClick = { onTagClick(tag) },
+                                label = {
+                                    Text(text = tag)
+                                }
+                            )
+                        }
                     }
                 }
             }

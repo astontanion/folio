@@ -186,7 +186,9 @@ fun PhotoListScreen(
                         }
                     }
                 },
-                modifier = Modifier.testTag(SEARCH_BAR_TEST_TAG)
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .testTag(SEARCH_BAR_TEST_TAG)
             ) {
                 LazyColumn(
                     modifier = Modifier.testTag(SEARCH_BAR_SUGGESTIONS)
