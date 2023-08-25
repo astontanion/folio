@@ -43,7 +43,8 @@ class UserDetailScreenTest {
                 UserDetailScreen(
                     uiState = uiState,
                     onRefresh = {},
-                    onBackPress = { hasClickOnBack = true }
+                    onBackPress = { hasClickOnBack = true },
+                    onPhotoClick = {}
                 )
             }
         }
@@ -63,7 +64,8 @@ class UserDetailScreenTest {
                 UserDetailScreen(
                     uiState = uiState,
                     onRefresh = {},
-                    onBackPress = {}
+                    onBackPress = {},
+                    onPhotoClick = {}
                 )
             }
         }
@@ -85,7 +87,8 @@ class UserDetailScreenTest {
                 UserDetailScreen(
                     uiState = uiState,
                     onRefresh = {},
-                    onBackPress = {}
+                    onBackPress = {},
+                    onPhotoClick = {}
                 )
             }
         }
@@ -111,7 +114,8 @@ class UserDetailScreenTest {
                 UserDetailScreen(
                     uiState = uiState,
                     onRefresh = {},
-                    onBackPress = {}
+                    onBackPress = {},
+                    onPhotoClick = {}
                 )
             }
         }
@@ -120,7 +124,7 @@ class UserDetailScreenTest {
             onNodeWithTag(USER_INFO_COMPONENT_TEST_TAG)
                 .assertIsDisplayed()
 
-            onNodeWithText(photo.ownerName)
+            onNodeWithText(photo.owner.username)
                 .assertIsDisplayed()
         }
     }
@@ -142,7 +146,8 @@ class UserDetailScreenTest {
                 UserDetailScreen(
                     uiState = uiState,
                     onRefresh = {},
-                    onBackPress = {}
+                    onBackPress = {},
+                    onPhotoClick = {}
                 )
             }
 
@@ -174,7 +179,8 @@ class UserDetailScreenTest {
                 UserDetailScreen(
                     uiState = uiState,
                     onRefresh = { hasClickedOnRefresh = true },
-                    onBackPress = {}
+                    onBackPress = {},
+                    onPhotoClick = {}
                 )
             }
         }
@@ -205,7 +211,8 @@ class UserDetailScreenTest {
                 UserDetailScreen(
                     uiState = uiState,
                     onRefresh = {},
-                    onBackPress = {}
+                    onBackPress = {},
+                    onPhotoClick = {}
                 )
             }
         }
@@ -238,7 +245,8 @@ class UserDetailScreenTest {
                 UserDetailScreen(
                     uiState = uiState,
                     onRefresh = { hasClickedOnRetry = true },
-                    onBackPress = {}
+                    onBackPress = {},
+                    onPhotoClick = {}
                 )
             }
         }
@@ -270,7 +278,8 @@ class UserDetailScreenTest {
                 UserDetailScreen(
                     uiState = uiState,
                     onRefresh = {},
-                    onBackPress = {}
+                    onBackPress = {},
+                    onPhotoClick = {}
                 )
             }
         }
@@ -278,5 +287,41 @@ class UserDetailScreenTest {
         composeTestRule.onAllNodesWithContentDescription(photos.first().title)
             .onFirst()
             .assertIsDisplayed()
+    }
+
+    @Test
+    fun clicking_on_a_photo_calls_on_photo_click() {
+        val photos = listOf(
+            Photo.create(id = "01"),
+            Photo.create(id = "02"),
+            Photo.create(id = "03"),
+        )
+
+        val uiState = UserDetailUiState.create(
+            photoListSummaryResource = DataResource.Success(
+                PhotosSummary.create(
+                    photos = photos
+                )
+            )
+        )
+
+        var hasClickedOnPhoto = false
+
+        composeTestRule.setContent {
+            FolioTheme {
+                UserDetailScreen(
+                    uiState = uiState,
+                    onRefresh = {},
+                    onBackPress = {},
+                    onPhotoClick = { hasClickedOnPhoto = true }
+                )
+            }
+        }
+
+        composeTestRule.onAllNodesWithContentDescription(photos.first().title)
+            .onFirst()
+            .performClick()
+
+        assertTrue(hasClickedOnPhoto)
     }
 }

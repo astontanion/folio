@@ -6,7 +6,7 @@
     <string name="shared_network_monitor_error_message">It seems you are not connected to the internet. Please try again later.</string>
     <string name="button_try_again">Retry</string>
     <string name="unable_to_fetch_photos">We were unable to fetch photos.</string>
-    <string name="search_for_photo_by_tag">Search photos by tags</string>
+    <string name="search_for_photo_by_tag">Search photos by tags or @username</string>
     <string name="search_mode_any">any</string>
     <string name="search_mode_all">all</string>
     <string name="photos_not_found">We could not found photos matching your query.</string>
@@ -14,4 +14,7 @@
     <string name="content_description_go_back">Go back</string>
     <string name="user_photos_not_found">We could not found this user\'s photos.</string>
     <string name="unable_to_fetch_user_photos">We are unabled to fetch this user\'s photos.</string>
+    <string name="unable_to_fetch_photo_detail">We are unable to fetch this photo\'s detail.</string>
+    <string name="shared_description">Description</string>
+    <string name="shared_tags">Tags</string>
 </resources>

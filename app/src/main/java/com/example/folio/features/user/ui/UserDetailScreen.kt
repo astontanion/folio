@@ -11,13 +11,13 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -46,7 +46,8 @@ fun UserDetailScreen(
     modifier: Modifier = Modifier,
     userId: String,
     viewModel: UserDetailViewModel = hiltViewModel(),
-    onBackPress: () -> Unit
+    onBackPress: () -> Unit,
+    onPhotoClick: (photoId: String) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -60,7 +61,8 @@ fun UserDetailScreen(
         modifier = modifier,
         uiState = uiState,
         onRefresh = { viewModel.onRefresh(userId) },
-        onBackPress = onBackPress
+        onBackPress = onBackPress,
+        onPhotoClick = onPhotoClick
     )
 }
 
@@ -70,7 +72,8 @@ fun UserDetailScreen(
     modifier: Modifier = Modifier,
     uiState: UserDetailUiState,
     onRefresh: () -> Unit,
-    onBackPress: () -> Unit
+    onBackPress: () -> Unit,
+    onPhotoClick: (photoId: String) -> Unit
 ) {
 
     val pullState = rememberPullRefreshState(
@@ -88,8 +91,9 @@ fun UserDetailScreen(
                     if (uiState.photoListSummaryResource is DataResource.Success) {
                         uiState.photoListSummaryResource.data.photos.firstOrNull()?.let { photo ->
                             UserInfoComponent(
-                                ownerUrl = photo.owner.profileUrl,
-                                ownerName = photo.owner.name,
+                                url = photo.owner.profileUrl,
+                                username = photo.owner.username,
+                                location = photo.owner.location,
                                 onClick = {},
                                 modifier = Modifier.testTag(USER_INFO_COMPONENT_TEST_TAG)
                             )
@@ -100,7 +104,7 @@ fun UserDetailScreen(
                     Icon(
                         imageVector = Icons.Rounded.ArrowBack,
                         contentDescription = stringResource(R.string.content_description_go_back),
-                        tint = MaterialTheme.colors.onSurface,
+                        tint = MaterialTheme.colorScheme.onSurface,
                         modifier = Modifier.clickable {
                             onBackPress()
                         }
@@ -148,7 +152,7 @@ fun UserDetailScreen(
                                         url = photo.url,
                                         contentDescription = photo.title,
                                         onClick = {
-                                            // TODO: navigate to photo detail
+                                            onPhotoClick(photo.id)
                                         }
                                     )
                                 }
