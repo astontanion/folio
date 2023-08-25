@@ -3,16 +3,20 @@ package com.example.folio.features.photo.model
 fun Photo.Companion.create(
     id: String = "01",
     title: String = "",
+    description: String = "",
     tags: List<String> = emptyList(),
     url: String = "",
-    owner: Owner = Owner.create()
+    owner: Owner = Owner.create(),
+    dateTaken: String? = null,
 ): Photo {
     return Photo(
         id = id,
         title = title,
+        description = description,
         tags = tags,
         url = url,
-        owner = owner
+        owner = owner,
+        dateTaken = dateTaken
     )
 }
 

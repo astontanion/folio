@@ -33,12 +33,14 @@ data class PhotoDto(
         return Photo(
             id = id,
             title = title,
+            description = null,
             tags = tags.split(" "),
             url = url ?: "",
+            dateTaken = null,
             owner = Owner(
                 id = ownerId,
-                username = "",
-                name = ownerName,
+                username = ownerName,
+                name = "",
                 location = "",
                 profileUrl = "https://farm${farm}.staticflickr.com/${server}/buddyicons/${ownerId}_l.jpg"
             )
@@ -74,15 +76,20 @@ data class PhotoDetailDto(
     val farm: String,
 
     @SerializedName("owner")
-    val owner: OwnerDto
+    val owner: OwnerDto,
+
+    @SerializedName("dates")
+    val dateInfo: DateInfo?
 ) {
 
     fun toModel(): Photo {
         return Photo(
             id = id,
             title = title?.content.orEmpty(),
+            description = description?.content,
             tags = tags?.tag?.map { it.content } ?: emptyList(),
-            url = "https://live.staticflickr.com/${server}/${id}_${secret}_m.jpg",
+            url = "https://live.staticflickr.com/${server}/${id}_${secret}_b.jpg",
+            dateTaken = dateInfo?.taken,
             owner = Owner(
                 id = owner.id,
                 username = owner.username,
@@ -125,3 +132,8 @@ data class OwnerDto(
 ) {
     val profileUrl = "https://farm${farm}.staticflickr.com/${server}/buddyicons/${id}_l.jpg"
 }
+
+data class DateInfo(
+    @SerializedName("taken")
+    val taken: String?
+)
