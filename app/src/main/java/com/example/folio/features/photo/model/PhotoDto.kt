@@ -87,7 +87,7 @@ data class PhotoDetailDto(
             id = id,
             title = title?.content.orEmpty(),
             description = description?.content,
-            tags = tags?.tag?.map { it.content } ?: emptyList(),
+            tags = tags?.tag?.map { it.content }?.filter { it.isNotBlank() } ?: emptyList(),
             url = "https://live.staticflickr.com/${server}/${id}_${secret}_b.jpg",
             dateTaken = dateInfo?.taken,
             owner = Owner(
