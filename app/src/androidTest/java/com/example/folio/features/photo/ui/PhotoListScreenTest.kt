@@ -42,7 +42,9 @@ class PhotoListScreenTest {
                     onSearch = {},
                     onSearchModeChange = {},
                     onAutoComplete = {},
-                    onUserClick = {}
+                    onUserClick = {},
+                    onTagClick = {},
+                    onPhotoClick = {}
                 )
             }
         }
@@ -72,7 +74,9 @@ class PhotoListScreenTest {
                     onSearch = {},
                     onSearchModeChange = {},
                     onAutoComplete = {},
-                    onUserClick = {}
+                    onUserClick = {},
+                    onTagClick = {},
+                    onPhotoClick = {}
                 )
             }
 
@@ -110,7 +114,9 @@ class PhotoListScreenTest {
                     onSearch = {},
                     onSearchModeChange = {},
                     onAutoComplete = {},
-                    onUserClick = {}
+                    onUserClick = {},
+                    onTagClick = {},
+                    onPhotoClick = {}
                 )
             }
         }
@@ -145,7 +151,9 @@ class PhotoListScreenTest {
                     onSearch = {},
                     onSearchModeChange = {},
                     onAutoComplete = {},
-                    onUserClick = {}
+                    onUserClick = {},
+                    onTagClick = {},
+                    onPhotoClick = {}
                 )
             }
         }
@@ -184,7 +192,9 @@ class PhotoListScreenTest {
                     onSearch = {},
                     onSearchModeChange = {},
                     onAutoComplete = {},
-                    onUserClick = {}
+                    onUserClick = {},
+                    onTagClick = {},
+                    onPhotoClick = {}
                 )
             }
         }
@@ -220,7 +230,9 @@ class PhotoListScreenTest {
                     onSearch = {},
                     onSearchModeChange = {},
                     onAutoComplete = {},
-                    onUserClick = {}
+                    onUserClick = {},
+                    onTagClick = {},
+                    onPhotoClick = {}
                 )
             }
         }
@@ -257,7 +269,9 @@ class PhotoListScreenTest {
                     onSearch = {},
                     onSearchModeChange = {},
                     onAutoComplete = {},
-                    onUserClick = {}
+                    onUserClick = {},
+                    onTagClick = {},
+                    onPhotoClick = {}
                 )
             }
         }
@@ -296,12 +310,14 @@ class PhotoListScreenTest {
                     onSearch = {},
                     onSearchModeChange = {},
                     onAutoComplete = {},
-                    onUserClick = { hasClickedOnOwnerInfo = true }
+                    onUserClick = { hasClickedOnOwnerInfo = true },
+                    onTagClick = {},
+                    onPhotoClick = {}
                 )
             }
         }
 
-        composeTestRule.onNodeWithText(photo.ownerName)
+        composeTestRule.onNodeWithText(photo.owner.username)
             .performClick()
 
         assertTrue(hasClickedOnOwnerInfo)

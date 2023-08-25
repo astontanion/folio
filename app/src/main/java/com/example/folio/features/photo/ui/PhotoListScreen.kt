@@ -59,7 +59,8 @@ const val SEARCH_BAR_SUGGESTIONS = "SEARCH_BAR_SUGGESTIONS"
 fun PhotoListScreen(
     modifier: Modifier = Modifier,
     viewModel: PhotoListViewModel = hiltViewModel(),
-    onUserClick: (userId: String) -> Unit
+    onUserClick: (userId: String) -> Unit,
+    onPhotoClick: (photoId: String) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -85,7 +86,12 @@ fun PhotoListScreen(
             viewModel.onSearch()
         },
         onAutoComplete = viewModel::onAutoCompleteTag,
-        onUserClick = onUserClick
+        onUserClick = onUserClick,
+        onPhotoClick = onPhotoClick,
+        onTagClick = { tag ->
+            viewModel.onQueryChange(tag)
+            viewModel.onSearch()
+        }
     )
 }
 
@@ -99,7 +105,9 @@ fun PhotoListScreen(
     onSearch: (query: String) -> Unit,
     onSearchModeChange: (mode: SearchTagMode) -> Unit,
     onAutoComplete: (tag: String) -> Unit,
-    onUserClick: (userId: String) -> Unit
+    onUserClick: (userId: String) -> Unit,
+    onPhotoClick: (photoId: String) -> Unit,
+    onTagClick: (tag: String) -> Unit
 ) {
 
     val pullState = rememberPullRefreshState(
@@ -132,74 +140,100 @@ fun PhotoListScreen(
                 placeholder = { Text(text = stringResource(id = R.string.search_for_photo_by_tag)) },
                 leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
                 trailingIcon = {
-                    Row {
-                        var showDropDown by remember { mutableStateOf(false) }
+                    if (!uiState.searchQuery.startsWith("@")) {
+                        Row {
+                            var showDropDown by remember { mutableStateOf(false) }
 
-                        Text(
-                            text = stringResource(
-                                id = when (uiState.searchMode) {
-                                    ANY -> R.string.search_mode_any
-                                    ALL -> R.string.search_mode_all
+                            Text(
+                                text = stringResource(
+                                    id = when (uiState.searchMode) {
+                                        ANY -> R.string.search_mode_any
+                                        ALL -> R.string.search_mode_all
+                                    }
+                                )
+                            )
+
+                            Icon(
+                                imageVector = Icons.Default.ArrowDropDown,
+                                contentDescription = null,
+                                modifier = Modifier.clickable {
+                                    showDropDown = true
                                 }
                             )
-                        )
 
-                        Icon(
-                            imageVector = Icons.Default.ArrowDropDown,
-                            contentDescription = null,
-                            modifier = Modifier.clickable {
-                                showDropDown = true
-                            }
-                        )
-
-                        DropdownMenu(
-                            expanded = showDropDown,
-                            onDismissRequest = { showDropDown = false }
-                        ) {
-                            DropdownMenuItem(
-                                onClick = {
-                                    showDropDown = false
-                                    onSearchModeChange(ANY)
-                                }
+                            DropdownMenu(
+                                expanded = showDropDown,
+                                onDismissRequest = { showDropDown = false }
                             ) {
-                                Text(text = stringResource(id = R.string.search_mode_any))
-                            }
-
-                            DropdownMenuItem(
-                                onClick = {
-                                    showDropDown = false
-                                    onSearchModeChange(ALL)
+                                DropdownMenuItem(
+                                    onClick = {
+                                        showDropDown = false
+                                        onSearchModeChange(ANY)
+                                    }
+                                ) {
+                                    Text(text = stringResource(id = R.string.search_mode_any))
                                 }
-                            ) {
-                                Text(text = stringResource(id = R.string.search_mode_all))
+
+                                DropdownMenuItem(
+                                    onClick = {
+                                        showDropDown = false
+                                        onSearchModeChange(ALL)
+                                    }
+                                ) {
+                                    Text(text = stringResource(id = R.string.search_mode_all))
+                                }
                             }
                         }
                     }
-
                 },
                 modifier = Modifier.testTag(SEARCH_BAR_TEST_TAG)
             ) {
                 LazyColumn(
                     modifier = Modifier.testTag(SEARCH_BAR_SUGGESTIONS)
                 ) {
-                    items(items = uiState.filteredTags, key = { it }) {tag ->
-                        ListItem(
-                            headlineContent = { Text(text = tag) },
-                            supportingContent = null,
-                            leadingContent = {
-                                Icon(
-                                    painter = painterResource(id = R.drawable.tag_fill),
-                                    contentDescription = null,
-                                    tint = MaterialTheme.colors.primary
+                    when (uiState.searchQuery.startsWith("@")) {
+                        true -> {
+                            items(items = uiState.filteredUsernames, key = { it }) { username ->
+                                ListItem(
+                                    headlineContent = { Text(text = username) },
+                                    supportingContent = null,
+                                    leadingContent = {
+                                        Icon(
+                                            painter = painterResource(id = R.drawable.alternate_email_fill),
+                                            contentDescription = null,
+                                            tint = MaterialTheme.colors.primary
+                                        )
+                                    },
+                                    modifier = Modifier
+                                        .clickable {
+                                            onAutoComplete(username)
+                                        }
+                                        .fillMaxWidth()
+                                        .padding(horizontal = 8.dp, vertical = 4.dp)
                                 )
-                            },
-                            modifier = Modifier
-                                .clickable {
-                                    onAutoComplete(tag)
-                                }
-                                .fillMaxWidth()
-                                .padding(horizontal = 8.dp, vertical = 4.dp)
-                        )
+                            }
+                        }
+                        false -> {
+                            items(items = uiState.filteredTags, key = { it }) {tag ->
+                                ListItem(
+                                    headlineContent = { Text(text = tag) },
+                                    supportingContent = null,
+                                    leadingContent = {
+                                        Icon(
+                                            painter = painterResource(id = R.drawable.tag_fill),
+                                            contentDescription = null,
+                                            tint = MaterialTheme.colors.primary
+                                        )
+                                    },
+                                    modifier = Modifier
+                                        .clickable {
+                                            onAutoComplete(tag)
+                                        }
+                                        .fillMaxWidth()
+                                        .padding(horizontal = 8.dp, vertical = 4.dp)
+                                )
+                            }
+                        }
                     }
                 }
             }
@@ -234,14 +268,16 @@ fun PhotoListScreen(
                                     PhotoPostComponent(
                                         photoUrl = photo.url,
                                         ownerUrl = photo.owner.profileUrl,
-                                        ownerName = photo.owner.name,
+                                        username = photo.owner.username,
                                         title = photo.title,
+                                        tags = photo.tags,
                                         onImageClick = {
-                                            // TODO: navigate to the image detail
+                                            onPhotoClick(photo.id)
                                         },
                                         onOwnerClick = {
                                             onUserClick(photo.owner.id)
-                                        }
+                                        },
+                                        onTagClick = onTagClick
                                     )
                                 }
                             }

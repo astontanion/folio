@@ -1,49 +1,28 @@
-package com.example.folio.features.photo.user.model
+package com.example.folio.features.user.model
 
-import com.example.folio.core.extension.emptyIfNull
 import com.google.gson.annotations.SerializedName
 
-data class UserDto(
-    @SerializedName("person")
-    val person: Person
+data class UserWrapperDto(
+    @SerializedName("user")
+    val user: UserDto
 ) {
     fun toModel(): User {
         return User(
-            id = person.id,
-            username = person.username?.content.emptyIfNull(),
-            fullName = person.fullName?.content.emptyIfNull(),
-            location = person.location?.content.emptyIfNull(),
-            description = person.description?.content.emptyIfNull(),
-            photosUrl = person.photosUrl?.content.emptyIfNull(),
-            profileUrl = person.photosUrl?.content.emptyIfNull()
+            id = user.id,
+            username = user.username?.content.orEmpty(),
         )
     }
 }
 
-data class Person(
+data class UserDto(
     @SerializedName("id")
     val id: String,
 
     @SerializedName("username")
-    val username: Contentable?,
-
-    @SerializedName("realname")
-    val fullName: Contentable?,
-
-    @SerializedName("location")
-    val location: Contentable?,
-
-    @SerializedName("description")
-    val description: Contentable?,
-
-    @SerializedName("photosurl")
-    val photosUrl: Contentable?,
-
-    @SerializedName("profileurl")
-    val profileUrl: Contentable?
+    val username: ContentableDto?,
 )
 
-data class Contentable(
+data class ContentableDto(
     @SerializedName("_content")
-    val content: String? = ""
+    val content: String = ""
 )

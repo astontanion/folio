@@ -25,10 +25,12 @@ class PhotoPostComponentTest {
             PhotoPostComponent(
                 photoUrl = photoUrl,
                 ownerUrl = ownerUrl,
-                ownerName = ownerName,
+                username = ownerName,
                 title = title,
+                tags = emptyList(),
                 onOwnerClick = {},
-                onImageClick = {}
+                onImageClick = {},
+                onTagClick = {},
             )
         }
 
@@ -53,12 +55,14 @@ class PhotoPostComponentTest {
             PhotoPostComponent(
                 photoUrl = photoUrl,
                 ownerUrl = ownerUrl,
-                ownerName = ownerName,
+                username = ownerName,
                 title = title,
+                tags = emptyList(),
                 onOwnerClick = {
                     hasClickedOnOwner = true
                 },
-                onImageClick = {}
+                onImageClick = {},
+                onTagClick = {}
             )
         }
 
@@ -88,12 +92,14 @@ class PhotoPostComponentTest {
             PhotoPostComponent(
                 photoUrl = photoUrl,
                 ownerUrl = ownerUrl,
-                ownerName = ownerName,
+                username = ownerName,
                 title = title,
                 onOwnerClick = {},
+                tags = emptyList(),
                 onImageClick = {
                     hasClickedOnImage = true
-                }
+                },
+                onTagClick = {}
             )
         }
 
