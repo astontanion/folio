@@ -6,7 +6,6 @@ import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
-import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
@@ -41,21 +40,20 @@ class PhotoComponentTest {
         val url = "https://asset.somewebsite.com/images/1234567890"
 
         var wasClicked = false
-        var expectedUrl = ""
 
         coroutineTestRule.setContent {
             PhotoComponent(
                 url = url,
                 contentDescription = null,
+                shape = null,
                 onClick = {
                     wasClicked = true
-                    expectedUrl = it
                 }
             )
         }
 
         coroutineTestRule.onNodeWithTag(PHOTO_COMPONENT_TEST_TAG).performClick()
+
         assertTrue(wasClicked)
-        assertEquals(url, expectedUrl)
     }
 }
