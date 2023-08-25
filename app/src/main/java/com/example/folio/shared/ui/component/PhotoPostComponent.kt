@@ -1,5 +1,6 @@
 package com.example.folio.shared.ui.component
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -53,7 +54,8 @@ fun PhotoPostComponent(
             Text(
                 text = title,
                 style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.clickable { onImageClick() }
             )
 
             if (tags.isNotEmpty()) {

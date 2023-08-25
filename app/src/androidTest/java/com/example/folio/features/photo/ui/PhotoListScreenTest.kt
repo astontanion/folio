@@ -5,11 +5,13 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.filter
 import androidx.compose.ui.test.hasSetTextAction
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.onFirst
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import com.example.folio.R
@@ -19,6 +21,7 @@ import com.example.folio.features.photo.model.PhotosSummary
 import com.example.folio.features.photo.model.create
 import com.example.folio.features.photo.viewmodel.PhotoListUiState
 import com.example.folio.features.photo.viewmodel.create
+import com.example.folio.shared.ui.component.PHOTO_COMPONENT_TEST_TAG
 import com.example.folio.shared.ui.theme.FolioTheme
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -240,6 +243,47 @@ class PhotoListScreenTest {
         composeTestRule.onAllNodesWithText(photos.first().title)
             .onFirst()
             .assertIsDisplayed()
+    }
+
+    @Test
+    fun when_a_photo_is_clicked_on_photo_click_is_called() {
+        val photos = listOf(
+            Photo.create(id = "01"),
+        )
+
+        val uiState = PhotoListUiState.create(
+            photoListSummaryResource = DataResource.Success(
+                PhotosSummary.create(
+                    photos = photos
+                )
+            )
+        )
+
+        var hasClickedOnPhoto = false
+
+        composeTestRule.setContent {
+            FolioTheme {
+                PhotoListScreen(
+                    uiState = uiState,
+                    onRefresh = {},
+                    onQueryChange = {},
+                    onSearch = {},
+                    onSearchModeChange = {},
+                    onAutoComplete = {},
+                    onUserClick = {},
+                    onTagClick = {},
+                    onPhotoClick = { hasClickedOnPhoto = true }
+                )
+            }
+        }
+
+        composeTestRule.onRoot(useUnmergedTree = true)
+
+        composeTestRule.onAllNodesWithTag(PHOTO_COMPONENT_TEST_TAG)
+            .onFirst()
+            .performClick()
+
+        assertTrue(hasClickedOnPhoto)
     }
 
     @Test

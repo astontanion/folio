@@ -2,7 +2,7 @@ package com.example.folio.features.photo.model
 
 fun Photo.Companion.create(
     id: String = "01",
-    title: String = "",
+    title: String = "phototitle",
     description: String = "",
     tags: List<String> = emptyList(),
     url: String = "",

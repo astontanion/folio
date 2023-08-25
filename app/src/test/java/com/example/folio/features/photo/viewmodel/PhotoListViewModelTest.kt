@@ -129,9 +129,10 @@ class PhotoListViewModelTest {
     @Test
     fun `given a success response from retrieve photos, the uiState's encountered tags list are populated`() = runTest {
         mockOnRetrievePhotos()
+        advanceUntilIdle()
 
-        val encounteredTags = photoListViewModel.uiState.drop(1)
-            .first()
+        val encounteredTags = photoListViewModel.uiState
+            .value
             .encounteredTags
 
         assertFalse(encounteredTags.isEmpty())
@@ -141,9 +142,10 @@ class PhotoListViewModelTest {
     @Test
     fun `given a success response from retrieve photos, the uiState's encountered username list are populated`() = runTest {
         mockOnRetrievePhotos()
+        advanceUntilIdle()
 
-        val encounteredUsernames = photoListViewModel.uiState.drop(1)
-            .first()
+        val encounteredUsernames = photoListViewModel.uiState
+            .value
             .encounteredUsernames
 
         assertFalse(encounteredUsernames.isEmpty())
@@ -287,7 +289,7 @@ class PhotoListViewModelTest {
         assertEquals("@John", newQuery)
     }
 
-    private fun mockOnSearchPhoto() = runTest {
+    private suspend fun mockOnSearchPhoto() {
         coEvery {
             searchPhotosUseCase(
                 tags = any(),
@@ -334,7 +336,7 @@ class PhotoListViewModelTest {
         photoListViewModel.onSearch()
     }
 
-    private fun mockOnRetrievePhotos() = runTest {
+    private suspend fun mockOnRetrievePhotos() {
         coEvery {
             retrievePhotosUseCase()
         } returns flow {

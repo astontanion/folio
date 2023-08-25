@@ -4,7 +4,9 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.printToLog
 import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
@@ -35,7 +37,7 @@ class PhotoPostComponentTest {
         }
 
         with(composeTestRule) {
-            onNodeWithTag(AVATAR_IMAGE_TEST_TAG).assertIsDisplayed()
+            onNodeWithTag(USER_INFO_IMAGE_TEST_TAG).assertIsDisplayed()
             onNodeWithText(ownerName).assertIsDisplayed()
             onNodeWithTag(PHOTO_COMPONENT_TEST_TAG).assertIsDisplayed()
             onNodeWithText(title).assertIsDisplayed()
@@ -66,8 +68,10 @@ class PhotoPostComponentTest {
             )
         }
 
+        composeTestRule.onRoot(useUnmergedTree = true).printToLog("MYTAG")
+
         with(composeTestRule) {
-            onNodeWithTag(AVATAR_IMAGE_TEST_TAG, useUnmergedTree = true).performClick()
+            onNodeWithTag(USER_INFO_IMAGE_TEST_TAG, useUnmergedTree = true).performClick()
 
             assertTrue(hasClickedOnOwner)
 
